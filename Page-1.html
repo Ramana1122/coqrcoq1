@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>coqrcoq - A Taste of Royal France</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#0A1E3C',secondary:'#D4AF37'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+        }
+        
+        .playfair {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .cormorant {
+            font-family: 'Cormorant', serif;
+        }
+        
+        .lora {
+            font-family: 'Lora', serif;
+        }
+        
+        .hero-section {
+            background-image: linear-gradient(rgba(10, 30, 60, 0.7), rgba(10, 30, 60, 0.7)), url('https://readdy.ai/api/search-image?query=Elegant%20French%20restaurant%20interior%20with%20soft%20candlelight%2C%20crystal%20chandeliers%2C%20white%20tablecloths%2C%20and%20rich%20wooden%20details.%20The%20atmosphere%20is%20intimate%20and%20luxurious%2C%20with%20a%20warm%20golden%20glow%20illuminating%20the%20space.%20Fine%20china%20and%20crystal%20glassware%20sparkle%20on%20the%20tables.%20The%20scene%20captures%20the%20essence%20of%20Parisian%20fine%20dining%20with%20subtle%20romantic%20lighting.&width=1920&height=1080&seq=hero1&orientation=landscape');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .nav-scrolled {
+            background-color: rgba(10, 30, 60, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .menu-item:hover .menu-price {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .menu-price {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: #D4AF37;
+            outline: none;
+        }
+        
+        .menu-link {
+            position: relative;
+        }
+        
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #D4AF37;
+            transition: width 0.3s ease;
+        }
+        
+        .menu-link:hover::after {
+            width: 100%;
+        }
+        
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .section-divider {
+            position: relative;
+        }
+        
+        .section-divider::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background-color: #D4AF37;
+            top: 50%;
+            left: calc(50% - 120px);
+        }
+        
+        .section-divider::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background-color: #D4AF37;
+            top: 50%;
+            right: calc(50% - 120px);
+        }
+        
+        .quote-mark {
+            font-size: 4rem;
+            line-height: 1;
+            color: rgba(212, 175, 55, 0.3);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .footer-border {
+            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+            height: 1px;
+        }
+        
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="smooth-scroll">
+    <header class="relative">
+        <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 py-4">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <a href="#" class="text-white text-2xl playfair font-semibold">coqrcoq</a>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#about" class="menu-link text-white hover:text-gray-200 transition-colors">About</a>
+                    <a href="#menu" class="menu-link text-white hover:text-gray-200 transition-colors">Menu</a>
+                    <a href="#gallery" class="menu-link text-white hover:text-gray-200 transition-colors">Gallery</a>
+                    <a href="#contact" class="menu-link text-white hover:text-gray-200 transition-colors">Contact</a>
+                    <a href="#" class="menu-link text-white hover:text-gray-200 transition-colors">Reservations</a>
+                </div>
+                
+                <button class="md:hidden text-white w-10 h-10 flex items-center justify-center">
+                    <i class="ri-menu-line ri-lg"></i>
+                </button>
+            </div>
+        </nav>
+        
+        <div class="hero-section h-screen flex items-center justify-center">
+            <div class="text-center px-6">
+                <h1 class="playfair text-6xl md:text-7xl lg:text-8xl text-white mb-4 tracking-wide">coqrcoq</h1>
+                <p class="cormorant text-xl md:text-2xl text-white mb-8 tracking-widest">A TASTE OF ROYAL FRANCE</p>
+                <div class="w-24 h-1 bg-[#D4AF37] mx-auto mb-8"></div>
+                <a href="#menu" class="inline-block px-8 py-3 border-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white transition-colors duration-300 !rounded-button whitespace-nowrap">Explore Menu</a>
+                
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 scroll-indicator">
+                    <a href="#about" class="text-white w-10 h-10 flex items-center justify-center">
+                        <i class="ri-arrow-down-line ri-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <section id="about" class="py-20 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="playfair text-4xl md:text-5xl text-primary mb-4">Our Story</h2>
+                <div class="section-divider relative h-6 mb-6">
+                    <span class="inline-block w-4 h-4 bg-[#D4AF37] rounded-full"></span>
+                </div>
+                <p class="text-gray-600 max-w-2xl mx-auto">A culinary journey through the heart of France</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <img src="https://readdy.ai/api/search-image?query=Elegant%20French%20restaurant%20interior%20with%20antique%20decor%2C%20featuring%20vintage%20photographs%20on%20walls%2C%20classic%20wooden%20furniture%2C%20and%20soft%20ambient%20lighting.%20The%20space%20has%20a%20nostalgic%20yet%20sophisticated%20atmosphere%20with%20white%20tablecloths%20and%20polished%20silverware.%20The%20scene%20captures%20the%20essence%20of%20traditional%20French%20culinary%20heritage%20with%20subtle%20artistic%20touches%20and%20warm%2C%20inviting%20colors.&width=600&height=800&seq=about1&orientation=portrait" alt="About coqrcoq" class="w-full h-auto rounded-lg shadow-lg">
+                </div>
+                
+                <div class="md:w-1/2">
+                    <div class="relative mb-8">
+                        <span class="quote-mark absolute -top-10 -left-4">"</span>
+                        <p class="lora text-lg italic text-gray-700 leading-relaxed">
+                            In the heart of the city, where cobblestone streets whisper tales of yesteryears, coqrcoq stands as a testament to France's culinary heritage.
+                        </p>
+                        <span class="quote-mark absolute -bottom-16 -right-4">"</span>
+                    </div>
+                    
+                    <p class="mb-6 text-gray-600 leading-relaxed">
+                        Established in 1987 by renowned chef Philippe Moreau, coqrcoq began as a humble bistro dedicated to preserving traditional French recipes passed down through generations. Today, under the guidance of Chef Isabelle Moreau, we continue to honor those traditions while embracing contemporary culinary innovations.
+                    </p>
+                    
+                    <p class="mb-8 text-gray-600 leading-relaxed">
+                        Our restaurant is more than a dining establishment—it is a sanctuary where time slows down, allowing guests to savor not just exquisite flavors, but moments of connection and joy. Every dish tells a story, every ingredient carefully selected from local producers who share our passion for excellence.
+                    </p>
+                    
+                    <div class="flex items-center">
+                        <img src="https://readdy.ai/api/search-image?query=Professional%20portrait%20of%20a%20sophisticated%20female%20French%20chef%20in%20white%20chef%20coat%20with%20elegant%20styling%2C%20standing%20confidently%20with%20arms%20crossed.%20The%20image%20has%20soft%2C%20professional%20lighting%20against%20a%20neutral%20background%2C%20capturing%20her%20confident%20expression%20and%20professional%20demeanor.%20The%20portrait%20conveys%20expertise%20and%20culinary%20mastery%20with%20a%20touch%20of%20French%20elegance.&width=100&height=100&seq=chef1&orientation=squarish" alt="Chef Isabelle" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <p class="playfair text-primary font-medium">Chef Isabelle Moreau</p>
+                            <p class="text-sm text-gray-500">Executive Chef & Owner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="menu" class="py-20 px-6 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="playfair text-4xl md:text-5xl text-primary mb-4">Our Menu</h2>
+                <div class="section-divider relative h-6 mb-6">
+                    <span class="inline-block w-4 h-4 bg-[#D4AF37] rounded-full"></span>
+                </div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Savor the essence of French culinary tradition</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <div>
+                    <h3 class="playfair text-2xl text-primary mb-6 pb-2 border-b border-[#D4AF37]">Entrées</h3>
+                    
+                    <div class="menu-item mb-6 pb-4 border-b border-gray-200">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Foie Gras de Canard</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€24</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Duck foie gras terrine, brioche toast, fig compote</p>
+                    </div>
+                    
+                    <div class="menu-item mb-6 pb-4 border-b border-gray-200">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Escargots de Bourgogne</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€18</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Burgundy snails, garlic-herb butter, crusty baguette</p>
+                    </div>
+                    
+                    <div class="menu-item mb-6 pb-4 border-b border-gray-200">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Soupe à l'Oignon</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€14</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Classic French onion soup, Gruyère, sourdough crouton</p>
+                    </div>
+                    
+                    <div class="menu-item mb-6 pb-4">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Salade Niçoise</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€16</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Seared tuna, haricots verts, olives, quail eggs</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="playfair text-2xl text-primary mb-6 pb-2 border-b border-[#D4AF37]">Plats Principaux</h3>
+                    
+                    <div class="menu-item mb-6 pb-4 border-b border-gray-200">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Coq au Vin</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€32</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Free-range chicken, red wine reduction, pearl onions, mushrooms</p>
+                    </div>
+                    
+                    <div class="menu-item mb-6 pb-4 border-b border-gray-200">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Bouillabaisse Marseillaise</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€38</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Traditional Provençal seafood stew, rouille, crusty bread</p>
+                    </div>
+                    
+                    <div class="menu-item mb-6 pb-4 border-b border-gray-200">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Filet de Bœuf Rossini</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€42</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Beef tenderloin, foie gras, truffle sauce, pommes Anna</p>
+                    </div>
+                    
+                    <div class="menu-item mb-6 pb-4">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Canard à l'Orange</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€36</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Roasted duck breast, orange sauce, seasonal vegetables</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="playfair text-2xl text-primary mb-6 pb-2 border-b border-[#D4AF37]">Desserts</h3>
+                    
+                    <div class="menu-item mb-6 pb-4 border-b border-gray-200">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Crème Brûlée</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€12</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Vanilla bean custard, caramelized sugar crust</p>
+                    </div>
+                    
+                    <div class="menu-item mb-6 pb-4 border-b border-gray-200">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Tarte Tatin</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€14</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Caramelized apple tart, vanilla ice cream</p>
+                    </div>
+                    
+                    <div class="menu-item mb-6 pb-4 border-b border-gray-200">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Soufflé au Grand Marnier</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€16</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Orange liqueur soufflé, crème anglaise (20 min preparation)</p>
+                    </div>
+                    
+                    <div class="menu-item mb-6 pb-4">
+                        <div class="flex justify-between">
+                            <h4 class="lora text-lg font-medium">Assiette de Fromages</h4>
+                            <span class="menu-price text-[#D4AF37] font-medium">€18</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-1">Selection of fine French cheeses, dried fruits, nuts</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <a href="#" class="inline-block px-8 py-3 bg-primary text-white hover:bg-opacity-90 transition-colors duration-300 !rounded-button whitespace-nowrap">View Full Menu</a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="gallery" class="py-20 px-6 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="playfair text-4xl md:text-5xl text-primary mb-4">Gallery</h2>
+                <div class="section-divider relative h-6 mb-6">
+                    <span class="inline-block w-4 h-4 bg-[#D4AF37] rounded-full"></span>
+                </div>
+                <p class="text-gray-600 max-w-2xl mx-auto">A visual journey through our culinary artistry</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://readdy.ai/api/search-image?query=Elegant%20plated%20French%20dish%20of%20Coq%20au%20Vin%20on%20a%20white%20porcelain%20plate%2C%20featuring%20tender%20chicken%20in%20rich%20red%20wine%20sauce%20with%20pearl%20onions%20and%20mushrooms.%20The%20dish%20is%20garnished%20with%20fresh%20herbs%20and%20served%20on%20a%20fine%20dining%20table%20setting%20with%20soft%2C%20professional%20food%20photography%20lighting%20that%20highlights%20the%20glossy%20sauce%20and%20vibrant%20colors.&width=600&height=400&seq=gallery1&orientation=landscape" alt="Coq au Vin" class="w-full h-64 object-cover transition-transform duration-500">
+                    <div class="gallery-overlay absolute inset-0 bg-primary bg-opacity-60 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                        <p class="text-white playfair text-xl">Coq au Vin</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://readdy.ai/api/search-image?query=Elegant%20French%20restaurant%20interior%20with%20soft%20lighting%2C%20showing%20a%20corner%20table%20set%20with%20fine%20white%20linens%2C%20crystal%20glassware%2C%20and%20polished%20silverware.%20The%20ambiance%20is%20intimate%20and%20sophisticated%20with%20warm%20candlelight%2C%20featuring%20rich%20wooden%20details%20and%20tasteful%20decor%20elements%20that%20create%20a%20luxurious%20dining%20atmosphere.%20Professional%20interior%20photography%20with%20perfect%20composition.&width=600&height=400&seq=gallery2&orientation=landscape" alt="Restaurant Interior" class="w-full h-64 object-cover transition-transform duration-500">
+                    <div class="gallery-overlay absolute inset-0 bg-primary bg-opacity-60 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                        <p class="text-white playfair text-xl">Elegant Dining Room</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://readdy.ai/api/search-image?query=Beautifully%20plated%20French%20dessert%20of%20Cr%C3%A8me%20Br%C3%BBl%C3%A9e%20with%20perfectly%20caramelized%20sugar%20top%2C%20garnished%20with%20fresh%20berries%20and%20mint.%20The%20dessert%20is%20served%20on%20an%20elegant%20white%20plate%20with%20gold%20rim%2C%20photographed%20with%20professional%20food%20styling%20and%20soft%20lighting%20that%20highlights%20the%20creamy%20texture%20and%20golden%20caramelized%20surface.%20The%20background%20is%20elegantly%20blurred.&width=600&height=400&seq=gallery3&orientation=landscape" alt="Crème Brûlée" class="w-full h-64 object-cover transition-transform duration-500">
+                    <div class="gallery-overlay absolute inset-0 bg-primary bg-opacity-60 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                        <p class="text-white playfair text-xl">Crème Brûlée</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://readdy.ai/api/search-image?query=Elegant%20French%20cheese%20board%20with%20a%20selection%20of%20fine%20French%20cheeses%20including%20Camembert%2C%20Roquefort%2C%20and%20Comt%C3%A9%2C%20arranged%20on%20a%20wooden%20board%20with%20dried%20fruits%2C%20nuts%2C%20and%20honey.%20The%20presentation%20includes%20small%20cheese%20knives%2C%20grape%20clusters%2C%20and%20thin%20slices%20of%20baguette.%20Professional%20food%20photography%20with%20soft%20lighting%20that%20highlights%20the%20textures%20and%20colors%20of%20the%20different%20cheeses.&width=600&height=400&seq=gallery4&orientation=landscape" alt="Cheese Selection" class="w-full h-64 object-cover transition-transform duration-500">
+                    <div class="gallery-overlay absolute inset-0 bg-primary bg-opacity-60 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                        <p class="text-white playfair text-xl">Assiette de Fromages</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://readdy.ai/api/search-image?query=Professional%20chef%20in%20white%20uniform%20preparing%20French%20cuisine%20in%20an%20elegant%20restaurant%20kitchen.%20The%20chef%20is%20focused%20on%20plating%20a%20sophisticated%20dish%20with%20tweezers%2C%20showing%20culinary%20precision%20and%20artistry.%20The%20kitchen%20is%20modern%20with%20stainless%20steel%20equipment%2C%20and%20the%20lighting%20creates%20a%20dramatic%2C%20professional%20atmosphere%20highlighting%20the%20chefs%20concentration%20and%20the%20beautiful%20food%20preparation.&width=600&height=400&seq=gallery5&orientation=landscape" alt="Chef at Work" class="w-full h-64 object-cover transition-transform duration-500">
+                    <div class="gallery-overlay absolute inset-0 bg-primary bg-opacity-60 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                        <p class="text-white playfair text-xl">Culinary Artistry</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md relative">
+                    <img src="https://readdy.ai/api/search-image?query=Elegant%20plated%20French%20dish%20of%20Filet%20de%20B%C5%93uf%20Rossini%20featuring%20perfectly%20cooked%20beef%20tenderloin%20topped%20with%20foie%20gras%20and%20truffle%20sauce.%20The%20dish%20is%20artfully%20presented%20on%20a%20white%20porcelain%20plate%20with%20pommes%20Anna%20potatoes%20and%20seasonal%20vegetables%20arranged%20with%20precision.%20Professional%20food%20photography%20with%20soft%20lighting%20that%20highlights%20the%20glossy%20sauce%20and%20the%20perfect%20medium-rare%20doneness%20of%20the%20beef.&width=600&height=400&seq=gallery6&orientation=landscape" alt="Filet de Bœuf Rossini" class="w-full h-64 object-cover transition-transform duration-500">
+                    <div class="gallery-overlay absolute inset-0 bg-primary bg-opacity-60 opacity-0 transition-opacity duration-300 flex items-center justify-center">
+                        <p class="text-white playfair text-xl">Filet de Bœuf Rossini</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact" class="py-20 px-6 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="playfair text-4xl md:text-5xl text-primary mb-4">Contact Us</h2>
+                <div class="section-divider relative h-6 mb-6">
+                    <span class="inline-block w-4 h-4 bg-[#D4AF37] rounded-full"></span>
+                </div>
+                <p class="text-gray-600 max-w-2xl mx-auto">We look forward to welcoming you</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2">
+                    <div class="bg-white p-8 rounded-lg shadow-md h-full">
+                        <h3 class="playfair text-2xl text-primary mb-6">Find Us</h3>
+                        
+                        <div class="mb-8 h-64 rounded-lg overflow-hidden">
+                            <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png')"></div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex items-start mb-4">
+                                <div class="w-10 h-10 flex items-center justify-center text-[#D4AF37] mr-4">
+                                    <i class="ri-map-pin-line ri-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium mb-1">Address</p>
+                                    <p class="text-gray-600">42 Rue Saint-Honoré, 75001 Paris, France</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mb-4">
+                                <div class="w-10 h-10 flex items-center justify-center text-[#D4AF37] mr-4">
+                                    <i class="ri-phone-line ri-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium mb-1">Phone</p>
+                                    <p class="text-gray-600">+33 1 42 96 56 27</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 flex items-center justify-center text-[#D4AF37] mr-4">
+                                    <i class="ri-mail-line ri-lg"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium mb-1">Email</p>
+                                    <p class="text-gray-600">reservations@coqrcoq.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium mb-3">Hours</h4>
+                            <table class="w-full text-sm">
+                                <tbody>
+                                    <tr class="border-b border-gray-100">
+                                        <td class="py-2 text-gray-600">Monday - Thursday</td>
+                                        <td class="py-2 text-right">12:00 - 14:30, 19:00 - 22:30</td>
+                                    </tr>
+                                    <tr class="border-b border-gray-100">
+                                        <td class="py-2 text-gray-600">Friday - Saturday</td>
+                                        <td class="py-2 text-right">12:00 - 14:30, 19:00 - 23:30</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 text-gray-600">Sunday</td>
+                                        <td class="py-2 text-right">12:00 - 15:00, 19:00 - 22:00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-white p-8 rounded-lg shadow-md h-full">
+                        <h3 class="playfair text-2xl text-primary mb-6">Make a Reservation</h3>
+                        
+                        <form>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                    <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded focus:border-[#D4AF37] transition-colors" placeholder="Your name">
+                                </div>
+                                
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded focus:border-[#D4AF37] transition-colors" placeholder="Your email">
+                                </div>
+                                
+                                <div>
+                                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                    <input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded focus:border-[#D4AF37] transition-colors" placeholder="Your phone">
+                                </div>
+                                
+                                <div>
+                                    <label for="guests" class="block text-sm font-medium text-gray-700 mb-1">Number of Guests</label>
+                                    <div class="relative">
+                                        <select id="guests" class="w-full appearance-none px-4 py-2 pr-8 border border-gray-300 rounded focus:border-[#D4AF37] transition-colors bg-white">
+                                            <option value="1">1 Person</option>
+                                            <option value="2">2 People</option>
+                                            <option value="3">3 People</option>
+                                            <option value="4">4 People</option>
+                                            <option value="5">5 People</option>
+                                            <option value="6">6 People</option>
+                                            <option value="7+">7+ People</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                            <i class="ri-arrow-down-s-line text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                                    <input type="date" id="date" class="w-full px-4 py-2 border border-gray-300 rounded focus:border-[#D4AF37] transition-colors">
+                                </div>
+                                
+                                <div>
+                                    <label for="time" class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+                                    <div class="relative">
+                                        <select id="time" class="w-full appearance-none px-4 py-2 pr-8 border border-gray-300 rounded focus:border-[#D4AF37] transition-colors bg-white">
+                                            <option value="12:00">12:00 PM</option>
+                                            <option value="12:30">12:30 PM</option>
+                                            <option value="13:00">1:00 PM</option>
+                                            <option value="13:30">1:30 PM</option>
+                                            <option value="14:00">2:00 PM</option>
+                                            <option value="19:00">7:00 PM</option>
+                                            <option value="19:30">7:30 PM</option>
+                                            <option value="20:00">8:00 PM</option>
+                                            <option value="20:30">8:30 PM</option>
+                                            <option value="21:00">9:00 PM</option>
+                                            <option value="21:30">9:30 PM</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                            <i class="ri-arrow-down-s-line text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Special Requests</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded focus:border-[#D4AF37] transition-colors" placeholder="Any special requests or dietary requirements?"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full py-3 bg-primary text-white hover:bg-opacity-90 transition-colors !rounded-button whitespace-nowrap">Request Reservation</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="bg-primary text-white py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between mb-12">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="playfair text-2xl mb-4">coqrcoq</h3>
+                    <p class="text-gray-300 max-w-xs">A culinary journey through the heart of France, offering an authentic taste of royal French cuisine.</p>
+                    
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-colors">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-colors">
+                            <i class="ri-twitter-x-fill"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37] transition-colors">
+                            <i class="ri-tripadvisor-fill"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="mb-8 md:mb-0">
+                    <h4 class="text-lg font-medium mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-300 hover:text-[#D4AF37] transition-colors">About Us</a></li>
+                        <li><a href="#menu" class="text-gray-300 hover:text-[#D4AF37] transition-colors">Menu</a></li>
+                        <li><a href="#gallery" class="text-gray-300 hover:text-[#D4AF37] transition-colors">Gallery</a></li>
+                        <li><a href="#contact" class="text-gray-300 hover:text-[#D4AF37] transition-colors">Contact</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-[#D4AF37] transition-colors">Private Events</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-[#D4AF37] transition-colors">Gift Cards</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-medium mb-4">Newsletter</h4>
+                    <p class="text-gray-300 mb-4">Subscribe to receive updates on special events and seasonal menus.</p>
+                    
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 w-full bg-gray-800 border-none text-white placeholder-gray-500 rounded-l focus:outline-none">
+                        <button type="submit" class="bg-[#D4AF37] text-primary px-4 py-2 rounded-r hover:bg-opacity-90 transition-colors whitespace-nowrap">Subscribe</button>
+                    </form>
+                    
+                    <div class="mt-6">
+                        <p class="text-sm text-gray-400">We accept:</p>
+                        <div class="flex space-x-3 mt-2">
+                            <i class="ri-visa-fill text-2xl text-gray-300"></i>
+                            <i class="ri-mastercard-fill text-2xl text-gray-300"></i>
+                            <i class="ri-american-express-fill text-2xl text-gray-300"></i>
+                            <i class="ri-paypal-fill text-2xl text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-border mb-6"></div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400 mb-4 md:mb-0">&copy; 2025 coqrcoq. All rights reserved.</p>
+                
+                <div class="flex space-x-6 text-sm text-gray-400">
+                    <a href="#" class="hover:text-[#D4AF37] transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-[#D4AF37] transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-[#D4AF37] transition-colors">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script id="navbar-scroll">
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('nav-scrolled');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                }
+            });
+        });
+    </script>
+    
+    <script id="smooth-scroll">
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <script id="mobile-menu">
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.querySelector('.md\\:hidden');
+            
+            // Mobile menu functionality would be implemented here
+            // This is a placeholder as the full implementation would require additional HTML elements
+            mobileMenuButton.addEventListener('click', function() {
+                alert('Mobile menu would open here');
+            });
+        });
+    </script>
+</body>
+</html>
